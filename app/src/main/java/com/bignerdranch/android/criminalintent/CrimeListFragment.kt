@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 private const val TAG = "CrimeListFragment"
 
@@ -70,11 +71,25 @@ class CrimeListFragment : Fragment() {
             titleTextView.text = this.crime.title
             val dateFormat = DateFormat.getLongDateFormat(context)
             //dateTextView.text = this.crime.date.toString()
-            dateTextView.text = dateFormat.format(this.crime.date)
+            val dateString = getDay(this.crime.date) + ", " + dateFormat.format(this.crime.date)
+            dateTextView.text = dateString
             solvedImageView.visibility = if (crime.isSolved) {
                 View.VISIBLE
             } else {
                 View.INVISIBLE
+            }
+        }
+
+        private fun getDay(date: Date): String {
+            when (date.getDay()) {
+                0 -> return "Sunday"
+                1 -> return "Monday"
+                2 -> return "Tuesday"
+                3 -> return "Wednesday"
+                4 -> return "Thursday"
+                5 -> return "Friday"
+                6 -> return "Saturday"
+                else -> return "DAY NOT FOUND"
             }
         }
 

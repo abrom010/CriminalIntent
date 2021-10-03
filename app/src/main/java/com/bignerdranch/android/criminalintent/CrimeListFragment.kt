@@ -77,7 +77,9 @@ class CrimeListFragment : Fragment() {
         : RecyclerView.Adapter<CrimeHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
-            val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
+            val view: View
+            if (viewType == 0) view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
+            else view = layoutInflater.inflate(R.layout.list_item_serious_crime, parent, false)
             return CrimeHolder(view)
         }
 
@@ -86,6 +88,10 @@ class CrimeListFragment : Fragment() {
         override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
             val crime = crimes[position]
             holder.bind(crime)
+        }
+
+        override fun getItemViewType(position: Int): Int {
+            return if (crimes[position].requiresPolice) 1 else 0
         }
     }
 
